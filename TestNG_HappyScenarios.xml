@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="TestSuite" parallel="classes" thread-count="1">
+    <listeners>
+        <listener class-name="SetUp.Listeners"/>
+    </listeners>
+
+    <test name="Happy Scenarios">
+        <groups>
+            <run>
+                <include name="Happy Scenarios"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="TestCases.T01_SignUp"></class>
+            <class name="TestCases.T02_SignIn"></class>
+            <class name="TestCases.T03_Cart"></class>
+            <class name="TestCases.T04_CheckOut"></class>
+            <class name="TestCases.T05_SignOut"></class>
+        </classes>
+    </test>
+</suite>
