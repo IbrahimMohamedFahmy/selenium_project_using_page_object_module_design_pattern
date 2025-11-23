@@ -89,4 +89,5 @@ public void CloseDriver() throws InterruptedException {
     //Step 2: Close Driver
     driver.quit();
 };
+
 }
