@@ -1,0 +1,27 @@
+[
+{
+  "HomeUrl": "https://automationexercise.com/",
+  "CartUrl": "https://automationexercise.com/view_cart",
+  "CheckOutPage": "https://automationexercise.com/checkout",
+  "ProductDetailsUrl": "https://automationexercise.com/product_details/1",
+  "Name": "Ibrahim Omran",
+  "FirstName": "Ibrahim",
+  "LastName": "Omran",
+  "Company": "Parotia",
+  "Address": "Alexandria",
+  "Zipcode": "12345",
+  "PhoneNumber": "+201025121569",
+  "Password": "123456Aa$",
+  "InvalidPassword": "12345",
+  "ValidEmail": "i.fahmy@gmail.com",
+  "InvalidEmail": "ibrahimmohamedfahmi1.com",
+  "SignUpUrl": "https://automationexercise.com/signup",
+  "PaymentPage": "https://automationexercise.com/payment",
+  "CardName": "Ibrahim Test",
+  "CardNumber": "4242 4242 4242 4242",
+  "CVC": "311",
+  "ED": "12 / 28",
+  "YY": "1998",
+  "CreatedAccountUrl": "https://automationexercise.com/account_created"
+}
+]
