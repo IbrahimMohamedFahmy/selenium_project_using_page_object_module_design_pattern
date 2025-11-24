@@ -26,38 +26,23 @@ public class T02_SignIn extends SuperClass
         soft.assertEquals(HomeURL, input.get("HomeUrl"));
 
         // Step 3: Open Sign In Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        signIn.openLoginPage();
 
-        // Step 4: Get The Text Of The SignIn Form
-        String SignUpText =driver.findElement(By.cssSelector("div[class='login-form'] h2")).getText();
+        // Step 4: Verify Login Form Title
+        soft.assertEquals(signIn.getLoginFormTitle(), "Login to your account");
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "Login to your account");
+        // Step 5: Login with valid data
+        signIn.login(input.get("ValidEmail"), input.get("Password"));
 
-        // Step 6: Get The Email Text Filed and Type a Valid Email
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys(input.get("ValidEmail"));
+        // Step 6: Check logout button displayed
+        soft.assertTrue(signIn.isLogoutDisplayed());
 
-        // Step 7: Get the Password Text Filed and Type a Valid Password
-        driver.findElement(By.cssSelector("input[placeholder='Password']")).sendKeys(input.get("Password"));
-
-        // Step 8: Get Sign In Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
-
-        // Step 9: Verify that the SignOut Button's Status
-        boolean SignOut = driver.findElement(By.cssSelector("a[href='/logout']")).isDisplayed();
-
-        // Step 10: Verify that the SignOut Button is existed
-        soft.assertTrue(SignOut);
-
-        // Step 11: Get The User Name From the Header
-        String UserName = driver.findElement(By.cssSelector("li:nth-child(10) a:nth-child(1)")).getText();
-
-        // Step 12: Verify That The User Name From The Header Match The Actual User name
+        // Step 7: Verify user name exists in header
+        String UserName = signIn.getLoggedInUserName();
         soft.assertTrue(UserName.contains(input.get("Name")));
 
-        // Step 13: Call `assertAll()` to check all assertions
+        // Step 8: assert all
         soft.assertAll();
-
     };
 
     @Test(groups = {"Sad Scenarios", "All Scenarios"}, priority = 2, dataProvider = "TestData")
@@ -70,141 +55,113 @@ public class T02_SignIn extends SuperClass
         soft.assertEquals(HomeURL, input.get("HomeUrl"));
 
         // Step 3: Open Sign In Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        signIn.openLoginPage();
 
-        // Step 4: Get The Text Of The SignIn Form
-        String SignUpText =driver.findElement(By.cssSelector("div[class='login-form'] h2")).getText();
+        // Step 4: Verify Login Form Title
+        soft.assertEquals(signIn.getLoginFormTitle(), "Login to your account");
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "Login to your account");
+        // Step 5: Enter invalid email + valid password
+        signIn.typeEmail(input.get("InvalidEmail"));
+        signIn.typePassword(input.get("Password"));
 
-        // Step 6: Get The Email Text Filed and Type a Invalid Email
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys(input.get("InvalidEmail"));
+        // Step 6: Click Login Button
+        signIn.clickLoginButton();
 
-        // Step 7: Get the Password Text Filed and Type a Valid Password
-        driver.findElement(By.cssSelector("input[placeholder='Password']")).sendKeys(input.get("Password"));
+        // Step 7: Get validation message from browser
+        String validationMessage = signIn.getEmailValidationMessage();
 
-        // Step 8: Get Sign In Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
+        // Step 8: Assert validation text
+        soft.assertEquals(validationMessage,
+                "Please include an '@' in the email address. 'ibrahimmohamedfahmi1.com' is missing an '@'.");
 
-        // Step 9: Get The Validation of the Email
-        String ValidationMessage = driver.findElement(By.cssSelector("input[data-qa='login-email']")).getAttribute("validationMessage");
-        System.out.println(ValidationMessage);
-        // Step 10: Check The System,s Validation
-        soft.assertEquals(ValidationMessage, "Please include an '@' in the email address. 'ibrahimmohamedfahmi1.com' is missing an '@'.");
-
-        // Step 11: Call `assertAll()` to check all assertions
+        // Step 9: Assert all
         soft.assertAll();
     };
 
     @Test(groups = {"Sad Scenarios", "All Scenarios"}, priority = 3, dataProvider = "TestData")
     public void SignInWithInValidPassword(HashMap<String, String> input)
     {
-        // Step 1: Get the Current URL
-        String HomeURL = driver.getCurrentUrl();
+        // Step 1: Assert Home URL
+        soft.assertEquals(driver.getCurrentUrl(), input.get("HomeUrl"));
 
-        // Step 2: verify That the Current URL and the HomeUrl are Match
-        soft.assertEquals(HomeURL, input.get("HomeUrl"));
+        // Step 2: Open Login Page
+        signIn.openLoginPage();
 
-        // Step 3: Open Sign In Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        // Step 3: Verify Login Form Text
+        soft.assertEquals(signIn.getLoginFormTitle(), "Login to your account");
 
-        // Step 4: Get The Text Of The SignIn Form
-        String SignUpText =driver.findElement(By.cssSelector("div[class='login-form'] h2")).getText();
+        // Step 4: Type Valid Email
+        signIn.typeEmail(input.get("ValidEmail"));
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "Login to your account");
+        // Step 5: Type Invalid Password
+        signIn.typePassword(input.get("InvalidPassword"));
 
-        // Step 6: Get The Email Text Filed and Type a Valid Email
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys(input.get("ValidEmail"));
+        // Step 6: Click Login
+        signIn.clickLoginButton();
 
-        // Step 7: Get the Password Text Filed and Type an Invalid Password
-        driver.findElement(By.cssSelector("input[placeholder='Password']")).sendKeys(input.get("InvalidPassword"));
+        // Step 7: Check Validation Error
+        soft.assertEquals(signIn.getInvalidLoginText(), "Your email or password is incorrect!");
 
-        // Step 8: Get Sign In Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
-
-        // Step 9: Get The System,s Validation
-        String Validation = driver.findElement(By.xpath("//p[normalize-space()='Your email or password is incorrect!']")).getText();
-
-        // Step 10: Check The Validation
-        soft.assertEquals(Validation, "Your email or password is incorrect!");
-
-        // Step 11: Call `assertAll()` to check all assertions
+        // Step 8: Validate Assertions
         soft.assertAll();
     };
 
     @Test(groups = {"Sad Scenarios", "All Scenarios"}, priority = 4, dataProvider = "TestData")
     public void SignInWithNotExistingEmail(HashMap<String, String> input)
     {
-        // Step 1: Get the Current URL
-        String HomeURL = driver.getCurrentUrl();
+        // Step 1: Assert Home URL
+        soft.assertEquals(driver.getCurrentUrl(), input.get("HomeUrl"));
 
-        // Step 2: verify That the Current URL and the HomeUrl are Match
-        soft.assertEquals(HomeURL, input.get("HomeUrl"));
+        // Step 2: Open Login Page
+        signIn.openLoginPage();
 
-        // Step 3: Open Sign In Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        // Step 3: Verify Login Form Title
+        soft.assertEquals(signIn.getLoginFormTitle(), "Login to your account");
 
-        // Step 4: Get The Text Of The SignIn Form
-        String SignUpText =driver.findElement(By.cssSelector("div[class='login-form'] h2")).getText();
+        // Step 4: Type Random (Not Existing) Email
+        signIn.typeEmail(getRandomEmail());
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "Login to your account");
+        // Step 5: Type Valid Password
+        signIn.typePassword(input.get("Password"));
 
-        // Step 6: Get The Email Text Filed and Type a not existing Email
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys(getRandomEmail());
+        // Step 6: Click Sign In
+        signIn.clickLoginButton();
 
-        // Step 7: Get the Password Text Filed and Type a Valid Password
-        driver.findElement(By.cssSelector("input[placeholder='Password']")).sendKeys(input.get("Password"));
+        // Step 7: Verify Error Message
+        soft.assertEquals(signIn.getInvalidLoginText(), "Your email or password is incorrect!");
 
-        // Step 8: Get Sign In Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
-
-        // Step 9: Get The System,s Validation
-        String Validation = driver.findElement(By.xpath("//p[normalize-space()='Your email or password is incorrect!']")).getText();
-
-        // Step 10: Check The Validation
-        soft.assertEquals(Validation, "Your email or password is incorrect!");
-
-        // Step 11: Call `assertAll()` to check all assertions
+        // Step 8: Validate Assertions
         soft.assertAll();
     };
 
     @Test(groups = {"Sad Scenarios", "All Scenarios"}, priority = 5, dataProvider = "TestData")
     public void SignInWithEmptyFields(HashMap<String, String> input)
     {
-        // Step 1: Get the Current URL
-        String HomeURL = driver.getCurrentUrl();
+        // Step 1: Assert Home URL
+        soft.assertEquals(driver.getCurrentUrl(), input.get("HomeUrl"));
 
-        // Step 2: verify That the Current URL and the HomeUrl are Match
-        soft.assertEquals(HomeURL, input.get("HomeUrl"));
+        // Step 2: Open Login Page
+        signIn.openLoginPage();
 
-        // Step 3: Open Sign In Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        // Step 3: Verify Login Form Title
+        soft.assertEquals(signIn.getLoginFormTitle(), "Login to your account");
 
-        // Step 4: Get The Text Of The SignIn Form
-        String SignUpText =driver.findElement(By.cssSelector("div[class='login-form'] h2")).getText();
+        // Step 4: Check Email Field is Displayed
+        soft.assertTrue(signIn.isEmailFieldDisplayed());
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "Login to your account");
+        // Step 5: Check Password Field is Displayed
+        soft.assertTrue(signIn.isPasswordFieldDisplayed());
 
-        // Step 6: Get The Email Text Filed and Check it is Displayed
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).isDisplayed();
+        // Step 6: Click Login Button Without Filling Anything
+        signIn.clickLoginButton();
 
-        // Step 7: Get the Password Text Filed and Check it is Displayed
-        driver.findElement(By.cssSelector("input[placeholder='Password']")).isDisplayed();
+        // Step 7: Get Browser Validation Message
+        String validation = signIn.getEmailValidationMessage();
 
-        // Step 8: Get Sign In Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
+        // Step 8: Verify Validation Message
+        soft.assertEquals(validation, "Please fill out this field.");
 
-        // Step 9: Get The Validation of the Email filed
-        String ValidationMessage = driver.findElement(By.cssSelector("input[data-qa='login-email']")).getAttribute("validationMessage");
-
-        // Step 10: Check The System,s Validation
-        soft.assertEquals(ValidationMessage, "Please fill out this field.");
-
-        // Step 11: Call `assertAll()` to check all assertions
+        // Step 9: Assert All
         soft.assertAll();
     };
 
