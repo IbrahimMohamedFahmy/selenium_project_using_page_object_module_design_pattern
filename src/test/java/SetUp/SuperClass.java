@@ -22,7 +22,7 @@ public class SuperClass
     // Create a global variable for soft assert
     public SoftAssert soft;
 
-    public WebDriverWait wait;
+    public static WebDriverWait wait;
 
     // Create Object From Class Select
     public static void Select(By locator, String text)
