@@ -4,6 +4,7 @@
   "CartUrl": "https://automationexercise.com/view_cart",
   "CheckOutPage": "https://automationexercise.com/checkout",
   "ProductDetailsUrl": "https://automationexercise.com/product_details/1",
+  "SignIn": "https://automationexercise.com/login",
   "Name": "Ibrahim Omran",
   "FirstName": "Ibrahim",
   "LastName": "Omran",

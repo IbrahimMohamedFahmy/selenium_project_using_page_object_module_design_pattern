@@ -21,116 +21,82 @@ public class T05_SignOut extends SuperClass
     @Test(groups = {"Happy Scenarios", "All Scenarios"}, priority = 1, dataProvider = "TestData")
     public void SignOutSuccessfullyAfterSuccessFulSignUp(HashMap<String, String> input)
     {
-        // Step 1: Get the Current URL
-        String HomeURL = driver.getCurrentUrl();
+        // STEP 1: Verify Home URL
+        soft.assertEquals(driver.getCurrentUrl(), input.get("HomeUrl"));
 
-        // Step 2: verify That the Current URL and the HomeUrl are Match
-        soft.assertEquals(HomeURL, input.get("HomeUrl"));
+        // STEP 2: Open Login/Signup Page
+        signUp.openLoginPage();
 
-        // Step 3: Open Sign Up Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        // STEP 3: Verify Sign Up Text
+        soft.assertEquals(signUp.getSignUpHeader(), "New User Signup!");
 
-        // Step 4: Get The Text Of The SignUp Form
-        String SignUpText = driver.findElement(By.xpath("//h2[text()='New User Signup!']")).getText();
+        // STEP 4: Enter valid name
+        signUp.enterName(input.get("Name"));
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "New User Signup!");
+        // STEP 5: Enter random email
+        signUp.enterEmail(SuperClass.getRandomEmail());
 
-        // Step 6: Get The Name Text Field and Type a Valid Name
-        driver.findElement(By.cssSelector("input[placeholder='Name']")).sendKeys(input.get("Name"));
+        // STEP 6: Click Signup button
+        signUp.clickSignUpButton();
 
-        // Step 7: Get The Email Text Filed and Type A valid Email
-        driver.findElement(By.cssSelector("input[data-qa='signup-email']")).sendKeys(SuperClass.getRandomEmail());
+        // STEP 7: Verify redirected to signup form
+        soft.assertEquals(driver.getCurrentUrl(), input.get("SignUpUrl"));
 
-        // Step 8: Get The SignUp Button And Click ON it
-        driver.findElement(By.cssSelector("button[data-qa='signup-button']")).click();
+        // STEP 8: Select Title (Mr.)
+        signUp.selectGenderMr();
 
-        // Step 9: Get The Current URL of The SignUp Page
-        String SignUpURL = driver.getCurrentUrl();
+        // STEP 9: Enter Password
+        signUp.enterPassword(input.get("Password"));
 
-        // Step 10: Check The Current and Expected URLs are Match
-        soft.assertEquals(SignUpURL, input.get("SignUpUrl"));
+        // STEP 10: Select Date of Birth
+        signUp.selectDay("5");
+        signUp.selectMonth("1");
+        signUp.selectYear("1998");
 
-        // Step 11: Get Check Box For "Mr." and Check it
-        driver.findElement(By.id("id_gender1")).click();
+        // STEP 11: Check Newsletter & Offers
+        signUp.checkNewsletter();
+        signUp.checkSpecialOffers();
 
-        // Step 12: Get The Password Text Filed and Type a Valid Password
-        driver.findElement(By.id("password")).sendKeys(input.get("Password"));
+        // STEP 12: Fill address info
+        signUp.enterFirstName(input.get("FirstName"));
+        signUp.enterLastName(input.get("LastName"));
+        signUp.enterCompany(input.get("Company"));
+        signUp.enterAddress(input.get("Address"));
 
-        // Step 13: Select The Day of Birthday
-        SuperClass.Scroll(driver.findElement(By.id("days")));
-        SuperClass.Select(By.id("days"), "5");
+        // STEP 13: Select Country
+        signUp.selectCountry("United States");
 
-        // Step 14: Select The Month of Birthday
-        SuperClass.Select(By.id("months"), "1");
+        // STEP 14: Fill State - City - Zip - Mobile
+        signUp.enterState(input.get("Address"));
+        signUp.enterCity(input.get("Address"));
+        signUp.enterZipcode(input.get("Zipcode"));
+        signUp.enterPhone(input.get("PhoneNumber"));
 
-        // Step 15: Select The Month of Birthday
-        SuperClass.Select(By.id("years"), "1998");
+        // STEP 15: Click Create Account Button
+        signUp.clickCreateAccount();
 
-        // Step 16: Check Box For newsletters
-        driver.findElement(By.id("newsletter")).click();
+        // STEP 16: Wait URL
+        wait.until(ExpectedConditions.urlToBe(input.get("CreatedAccountUrl")));
+        soft.assertEquals(driver.getCurrentUrl(), input.get("CreatedAccountUrl"));
 
-        // Step 17: Check Box For special offers
-        driver.findElement(By.id("optin")).click();
+        // STEP 17: Verify success title
+        soft.assertEquals(signUp.getAccountCreatedTitle(), "ACCOUNT CREATED!");
 
-        // Step 18: Get First Name Text Filed and Type a Valid First Name
-        driver.findElement(By.id("first_name")).sendKeys(input.get("FirstName"));
+        // STEP 18: Verify success message
+        soft.assertEquals(signUp.getAccountCreatedMessage(),
+                "Congratulations! Your new account has been successfully created!");
 
-        // Step 19: Get Last Name Text Filed and Type a Valid Last Name
-        driver.findElement(By.id("last_name")).sendKeys(input.get("LastName"));
+        // STEP 19: Click Continue
+        signUp.clickContinueButton();
 
-        // Step 20: Get Company Text Filed and Type a Valid Company Name
-        driver.findElement(By.id("company")).sendKeys(input.get("Company"));
+        // STEP 20: Verify SignOut visible
+        soft.assertTrue(signUp.isSignOutDisplayed());
 
-        // Step 21: Get Address Text Filed and Type a Valid address
-        driver.findElement(By.id("address1")).sendKeys(input.get("Address"));
+        // Step 21: Click SignOut
+        signOut.SignOutClick();
 
-        // Step 22: Select The country
-        SuperClass.Scroll(driver.findElement(By.id("country")));
-        SuperClass.Select(By.id("country"), "United States");
-
-        // Step 23: Get the State Text Filed and Type a Valid State
-        driver.findElement(By.id("state")).sendKeys(input.get("Address"));
-
-        // Step 24: Get The City Text Filed and Type a Valid City
-        driver.findElement(By.id("city")).sendKeys(input.get("Address"));
-
-        // Step 25: Get The Zipcode Text Filed and Type a Valid Zipcode
-        driver.findElement(By.id("zipcode")).sendKeys(input.get("Zipcode"));
-
-        // Step 26: Get The Phone Number Text Filed and Type a Valid Phone Number
-        driver.findElement(By.id("mobile_number")).sendKeys(input.get("PhoneNumber"));
-
-        // Step 27: Get The Create Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='create-account']")).click();
-
-        // Step 28: Get The Current URL
-        String CreatedAccountURL = driver.getCurrentUrl();
-
-        // Step 29: Verify That The Current and Expected URLs for Created Account Page are Match
-        soft.assertEquals(CreatedAccountURL, input.get("CreatedAccountUrl"));
-
-        // Step 30: Get The Successful Text
-        String ActualSuccessfulText = driver.findElement(By.cssSelector("h2[class='title text-center'] b")).getText();
-
-        // Step 31: Verify That the Actual Successful Text and Expected Text are Match
-        soft.assertEquals(ActualSuccessfulText, "ACCOUNT CREATED!");
-
-        // Step 32: Get Successful Message
-        String ActualSuccessfulMessage = driver.findElement(By.xpath("//p[text()='Congratulations! Your new account has been successfully created!']")).getText();
-
-        // Step 33: Verify that the Actual Successful Message and Expected Successful Message are Match
-        soft.assertEquals(ActualSuccessfulMessage, "Congratulations! Your new account has been successfully created!");
-
-        // Step 34: Get The Continue Button and Click on it to go to The Products Page
-        driver.findElement(By.cssSelector(".btn.btn-primary")).click();
-
-        // Step 35: Verify that the SignOut Button's Status
-        driver.findElement(By.cssSelector("a[href='/logout']")).click();
-
-        // Step 36: Verify that Sign in Button is Displayed
-        Boolean Sign_In = driver.findElement(By.cssSelector("a[href='/login']")).isDisplayed();
-        soft.assertTrue(Sign_In);
+        // Step 22: Verify that Click SignOut redirect user to home
+        soft.assertEquals(driver.getCurrentUrl(), input.get("SignIn"));
 
         // Step 13: Call `assertAll()` to check all assertions
         soft.assertAll();
@@ -146,37 +112,24 @@ public class T05_SignOut extends SuperClass
         soft.assertEquals(HomeURL, input.get("HomeUrl"));
 
         // Step 3: Open Sign In Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        signIn.openLoginPage();
 
-        // Step 4: Get The Text Of The SignIn Form
-        String SignUpText =driver.findElement(By.cssSelector("div[class='login-form'] h2")).getText();
+        // Step 4: Verify Login Form Title
+        soft.assertEquals(signIn.getLoginFormTitle(), "Login to your account");
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "Login to your account");
+        // Step 5: Login with valid data
+        signIn.login(input.get("ValidEmail"), input.get("Password"));
 
-        // Step 6: Get The Email Text Filed and Type a Valid Email
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys(input.get("ValidEmail"));
+        // STEP 6: Verify SignOut visible
+        soft.assertTrue(signUp.isSignOutDisplayed());
 
-        // Step 7: Get the Password Text Filed and Type a Valid Password
-        driver.findElement(By.cssSelector("input[placeholder='Password']")).sendKeys(input.get("Password"));
+        // Step 7: Click SignOut
+        signOut.SignOutClick();
 
-        // Step 8: Get Sign In Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
+        // Step 8: Verify that Click SignOut redirect user to home
+        soft.assertEquals(driver.getCurrentUrl(), input.get("SignIn"));
 
-        // Step 9: Verify that the SignOut Button's Status
-        boolean SignOut = driver.findElement(By.cssSelector("a[href='/logout']")).isDisplayed();
-
-        // Step 10: Verify that the SignOut Button is existed
-        soft.assertTrue(SignOut);
-
-        // Step 11: Verify that the SignOut Button's Status
-        driver.findElement(By.cssSelector("a[href='/logout']")).click();
-
-        // Step 12: Verify that Sign in Button is Displayed
-        Boolean Sign_In = driver.findElement(By.cssSelector("a[href='/login']")).isDisplayed();
-        soft.assertTrue(Sign_In);
-
-        // Step 12: Call `assertAll()` to check all assertions
+        // Step 9: Call `assertAll()` to check all assertions
         soft.assertAll();
     };
 
@@ -185,79 +138,52 @@ public class T05_SignOut extends SuperClass
     {
         // Step 1: Get the Current URL
         String HomeURL = driver.getCurrentUrl();
-
-        // Step 2: verify That the Current URL and the HomeUrl are Match
         soft.assertEquals(HomeURL, input.get("HomeUrl"));
 
-        // Step 3: Open Sign In Page
-        driver.findElement(By.cssSelector("a[href='/login']")).click();
+        // Step 2: Open Sign In Page and Login
+        cart.openSignInPage();
+        cart.login(input.get("ValidEmail"), input.get("Password"));
 
-        // Step 4: Get The Text Of The SignIn Form
-        String SignUpText =driver.findElement(By.cssSelector("div[class='login-form'] h2")).getText();
+        // Step 3: Get Product Card
+        WebElement productCard = cart.getProductCard("Blue Top");
 
-        // Step 5: Check The SignUp Text
-        soft.assertEquals(SignUpText, "Login to your account");
+        // Step 4: Scroll to Product Card
+        cart.scrollToElement(productCard);
 
-        // Step 6: Get The Email Text Filed and Type a Valid Email
-        driver.findElement(By.cssSelector("input[data-qa='login-email']")).sendKeys(input.get("ValidEmail"));
+        // Step 5: Get Product Name
+        String productName = productCard.findElement(org.openqa.selenium.By.tagName("p")).getText();
 
-        // Step 7: Get the Password Text Filed and Type a Valid Password
-        driver.findElement(By.cssSelector("input[placeholder='Password']")).sendKeys(input.get("Password"));
+        // Step 6: Add Product to Cart
+        cart.addProductToCart(productCard);
 
-        // Step 8: Get Sign In Button and Click on it
-        driver.findElement(By.cssSelector("button[data-qa='login-button']")).click();
+        // Step 7: Validate Success Message
+        String successMessage = cart.getSuccessAddToCartMessage();
+        soft.assertEquals(successMessage, "Your product has been added to cart.");
 
-        // Step 9: Get the Target Element
-        WebElement productCard = driver.findElement(By.xpath("//p[text()='Blue Top']/ancestor::div[@class='productinfo text-center']"));
+        // Step 8: Close Popup
+        cart.closePopup();
 
-        // Step 10: Scroll to Get The Element
-        SuperClass.Scroll(productCard);
+        // Step 9: Go to Cart Page
+        cart.goToCartPage();
 
-        // Step 11: Get Product Name
-        String productName = productCard.findElement(By.tagName("p")).getText();
+        // Step 10: Validate Cart URL
+        String cartURL = driver.getCurrentUrl();
+        soft.assertEquals(cartURL, input.get("CartUrl"));
 
-        // Step 12: click Add to Cart from same card
-        productCard.findElement(By.xpath(".//a[contains(@class,'add-to-cart')]")).click();
+        // Step 11: Get Product Name from Cart and Validate
+        String cartProductName = cart.getProductNameInCart("/product_details/1");
+        soft.assertEquals(cartProductName, productName);
 
-        // Step 13: Get Successful Message of add product
-        WebElement popup = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[text()='Your product has been added to cart.']")));
-        String SM = popup.getText();
+        // STEP 12: Verify SignOut visible
+        soft.assertTrue(signUp.isSignOutDisplayed());
 
-        // Step 14: Check The Message
-        soft.assertEquals(SM, "Your product has been added to cart.");
+        // Step 13: Click SignOut
+        signOut.SignOutClick();
 
-        // Step 15:Close popup
-        driver.findElement(By.xpath("//button[normalize-space()='Continue Shopping']")).click();
+        // Step 14: Verify that Click SignOut redirect user to home
+        soft.assertEquals(driver.getCurrentUrl(), input.get("SignIn"));
 
-        // Step 15: go to cart page
-        driver.findElement(By.xpath("//a[contains(text(),'Cart')]")).click();
-
-        // Step 16: Get Current Url
-        String CartURL = driver.getCurrentUrl();
-
-        // Step 15: Check Actual and Expected URLs
-        soft.assertEquals(CartURL, input.get("CartUrl"));
-
-        // Step 16: Get The Product Name From the Cart
-        String CartProductName = driver.findElement(By.cssSelector("a[href='/product_details/1']")).getText();
-
-        // Step 17: Check if The Product's Names Match or Not
-        soft.assertEquals(CartProductName, productName);
-
-        // Step 18: Verify that the SignOut Button's Status
-        boolean SignOut = driver.findElement(By.cssSelector("a[href='/logout']")).isDisplayed();
-
-        // Step 19: Verify that the SignOut Button is existed
-        soft.assertTrue(SignOut);
-
-        // Step 20: Verify that the SignOut Button's Status
-        driver.findElement(By.cssSelector("a[href='/logout']")).click();
-
-        // Step 21: Verify that Sign in Button is Displayed
-        Boolean Sign_In = driver.findElement(By.cssSelector("a[href='/login']")).isDisplayed();
-        soft.assertTrue(Sign_In);
-
-        // Step 22: Call `assertAll()` to check all assertions
+        // Step 15: Call `assertAll()` to check all assertions
         soft.assertAll();
     };
 

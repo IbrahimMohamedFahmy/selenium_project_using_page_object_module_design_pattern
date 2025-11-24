@@ -1,6 +1,8 @@
 package PageObjects;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class P05_SignOut
@@ -16,5 +18,13 @@ public class P05_SignOut
     }
 
     // Data Members
+    @FindBy(css = "a[href='/logout']")
+    public static WebElement signOutLink;
+
     // Methods
+    public void SignOutClick()
+    {
+         signOutLink.click();
+    }
+
 }
