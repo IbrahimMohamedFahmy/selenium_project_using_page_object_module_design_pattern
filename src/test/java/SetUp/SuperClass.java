@@ -45,11 +45,11 @@ public class SuperClass
     }
 
     // Make The Pages As Global
-    P01_SignUp signUp;
-    P02_SignIn signIn;
-    P03_Cart cart;
-    P04_CheckOut checkOut;
-    P05_SignOut signOut;
+    public P01_SignUp signUp;
+    public P02_SignIn signIn;
+    public P03_Cart cart;
+    public P04_CheckOut checkOut;
+    public P05_SignOut signOut;
 
 @BeforeMethod
 public void OpenDriver()
