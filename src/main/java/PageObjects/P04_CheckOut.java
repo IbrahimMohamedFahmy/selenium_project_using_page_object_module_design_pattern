@@ -51,7 +51,7 @@ public class P04_CheckOut
     WebElement continueShoppingButton;
 
     // ================= Cart Page =================
-    @FindBy(css = ".cart_total_price")
+    @FindBy(css = "td[class='cart_price'] p")
     WebElement productTotalPrice;
 
     @FindBy(css = ".cart_quantity button")
@@ -139,7 +139,7 @@ public class P04_CheckOut
         cartLink.click();
     }
 
-    public double getProductTotalPrice() {
+    public double getProductPrice() {
         return Double.parseDouble(productTotalPrice.getText().replace("Rs.", "").trim());
     }
 

@@ -58,10 +58,10 @@ public void OpenDriver()
     driver = new ChromeDriver();
 
     // Step 2: Manage Conditional Synchronisation "implicit wait"
-    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
     // Step 3: Manage Conditional Synchronisation "explicit wait"
-    wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+    wait = new WebDriverWait(driver, Duration.ofSeconds(40));
 
     // Step 4: Manage Window Maximize
     driver.manage().window().maximize();

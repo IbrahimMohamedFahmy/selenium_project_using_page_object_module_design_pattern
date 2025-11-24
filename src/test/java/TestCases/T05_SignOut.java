@@ -215,7 +215,7 @@ public class T05_SignOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 8: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());

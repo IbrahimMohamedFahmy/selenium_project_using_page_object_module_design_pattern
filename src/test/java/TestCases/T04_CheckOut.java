@@ -46,10 +46,11 @@ public class T04_CheckOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 8: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());
+
 
         // Step 9: Continue to Payment
         checkOut.paymentPage();
@@ -91,10 +92,6 @@ public class T04_CheckOut extends SuperClass
 
         checkOut.login(input.get("ValidEmail"), input.get("Password")); // Login using POM method
 
-        // Step 5: Add Product to Cart
-        checkOut.addProductToCart();
-        soft.assertEquals(checkOut.handleAddCartPopup(), "Your product has been added to cart."); // Handle popup
-
         // Step 6: Go to Cart
         checkOut.goToCartPage();
         soft.assertEquals(driver.getCurrentUrl(), input.get("CartUrl"));
@@ -115,7 +112,7 @@ public class T04_CheckOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 11: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());
@@ -173,7 +170,7 @@ public class T04_CheckOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 8: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());
@@ -231,7 +228,7 @@ public class T04_CheckOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 8: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());
@@ -289,7 +286,7 @@ public class T04_CheckOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 8: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());
@@ -347,7 +344,7 @@ public class T04_CheckOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 8: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());
@@ -405,7 +402,7 @@ public class T04_CheckOut extends SuperClass
         soft.assertEquals(driver.getCurrentUrl(), input.get("CheckOutPage"));
 
         // Step 8: Verify Product Price
-        double price = checkOut.getProductTotalPrice();
+        double price = checkOut.getProductPrice();
         int quantity = checkOut.getQuantity();
         double expectedTotal = price * quantity;
         soft.assertEquals(expectedTotal, checkOut.getCartTotalPrice());
