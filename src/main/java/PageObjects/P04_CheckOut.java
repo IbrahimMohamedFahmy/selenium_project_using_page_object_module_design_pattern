@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import static PageObjects.P03_Cart.wait;
 
 public class P04_CheckOut
 {
@@ -101,13 +104,20 @@ public class P04_CheckOut
         addToCartButton.click();
     }
 
+    public void paymentPage()
+    {
+        WebElement checkoutBtn = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".btn.btn-default.check_out")));
+        checkoutBtn.click();
+    };
 
     public String handleAddCartPopup() {
-        String message = addCartSuccessMessage.getText();
+
+        // Wait until message is visible
+        wait.until(ExpectedConditions.visibilityOf(addCartSuccessMessage));
+        String message = addCartSuccessMessage.getText().trim();
         continueShoppingButton.click();
         return message;
     }
-
     public void enterPaymentDetails(String cardName, String cardNumber, String cvc, String month, String year) {
         cardNameInput.sendKeys(cardName);
         cardNumberInput.sendKeys(cardNumber);
@@ -119,7 +129,9 @@ public class P04_CheckOut
         submitPaymentButton.click();
     }
 
-    public void clickProductsPageLink() {
+    public void clickProductsPageLink()
+    {
+        wait.until(ExpectedConditions.visibilityOf(productsPageLink));
         productsPageLink.click();
     }
 
